@@ -6,3 +6,7 @@ Il sistema prende i file da una directory, permettendoti di stamparli, modificar
 
 La creazione di un nuovo file viene eseguita modificando un template creato in precedenza (in modo da avere tutti i file uguali).
 
+
+
+## Dipendenze necessarie:
+Libreoffice python-docx
