@@ -66,23 +66,25 @@ def nuova_etichetta():
     nome = input("inserisci nome e cognome: ")
     azienda = input("inserisci azienda:")
     indirizzo = input("inserisci indirizzo: ")
-    
+    località = input("inserisci località:")   
+    #pagamento = input("")
+
     # modifica del documento
     document = Document("template/template.docx")
-    
+    # creazione stili
     styles = document.styles
     
     style = styles.add_style('Times New Roman', WD_STYLE_TYPE.PARAGRAPH)
     
     style.font.bold = True
-    style.font.size = Pt(22)
+    style.font.size = Pt(26)
 
     style1 = styles.add_style('Underline', WD_STYLE_TYPE.PARAGRAPH) 
     style1.font.underline = True
     style1.font.bold = True
-    style1.font.size = Pt(22)
+    style1.font.size = Pt(26)
 
-    
+    # formattazione documento
     par_nome = document.add_paragraph(nome)
     par_nome.alignment = 1
 
@@ -96,11 +98,18 @@ def nuova_etichetta():
     
     par_vuoto = document.add_paragraph(" ")
     
+    par_località = document.add_paragraph(località)
+    par_località.alignment =1
     
+
+    # applicazione dello stile 
     par_nome.style = styles["Times New Roman"]
     par_azienda.style = styles["Times New Roman"]
+    par_indirizzo.style = styles["Times New Roman"]
     
-    par_indirizzo.style = styles["Underline"]
+    par_località.style = styles["Underline"]
+    
+
     # salvataggio documento
     document.save("Indirizzi_SpedizioniDocx/"+nome+".docx")
 
@@ -114,7 +123,7 @@ def stampa():
         subprocess.run("libreoffice -p  /home/simel/hobbyfarm/Etichette_Creator/Indirizzi_SpedizioniDocx/"+file_stampa, shell = True)
         
     except: 
-        print("XXXERROREXXX   file non trovato")
+        print("XXXERROREXXX  file non trovato")
 
 
 def aiuto():
@@ -130,12 +139,18 @@ def aiuto():
 def interfaccia():
     comando = input("-->: ")
     
+    if comando == "":
+        interfaccia()
+
+
     if comando == "stampa":
         stampa()
         interfaccia()
+    
     if comando == "nuova":
         nuova_etichetta()
         interfaccia()
+    
     if comando == "aiuto":
         aiuto()
         interfaccia()
