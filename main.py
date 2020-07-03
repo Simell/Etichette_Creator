@@ -64,21 +64,25 @@ c = conn.cursor()
 def nuova_etichetta():
     # comandi
     nome = input("inserisci nome e cognome: ")
-    azienda = input("inserisci azienda:")
+    azienda = input("inserisci azienda: ")
     indirizzo = input("inserisci indirizzo: ")
-    località = input("inserisci località:")   
-    #pagamento = input("")
+    località = input("inserisci località: ")   
+    pagamento = input(" inserisci modalità di pagamento: ")
+    prezzo = input("inserisci prezzo: ")
+    prezzo_scritto = input("inserisci prezzo scritto: ")
 
     # modifica del documento
     document = Document("template/template.docx")
     # creazione stili
     styles = document.styles
     
+    # stile Times New Roman: solo bold con dimensione 26
     style = styles.add_style('Times New Roman', WD_STYLE_TYPE.PARAGRAPH)
     
     style.font.bold = True
     style.font.size = Pt(26)
-
+    
+    # stile Underline:  bold e sottolineato con dimensione 26
     style1 = styles.add_style('Underline', WD_STYLE_TYPE.PARAGRAPH) 
     style1.font.underline = True
     style1.font.bold = True
@@ -99,23 +103,31 @@ def nuova_etichetta():
     par_vuoto = document.add_paragraph(" ")
     
     par_località = document.add_paragraph(località)
-    par_località.alignment =1
+    par_località.alignment = 1
     
+    par_vuoto = document.add_paragraph(" ")
+    
+    par_pagamento = document.add_paragraph(pagamento+" € "+prezzo)
+    par_pagamento.alignment = 1
+    par_prezzo_scritto = document.add_paragraph("("+prezzo_scritto+")")
+    par_prezzo_scritto.alignment = 1
 
     # applicazione dello stile 
     par_nome.style = styles["Times New Roman"]
     par_azienda.style = styles["Times New Roman"]
     par_indirizzo.style = styles["Times New Roman"]
-    
-    par_località.style = styles["Underline"]
-    
 
+    par_località.style = styles["Underline"]
+    par_pagamento.style = styles["Underline"]
+    par_prezzo_scritto.style  = styles["Times New Roman"]
+
+    
     # salvataggio documento
     document.save("Indirizzi_SpedizioniDocx/"+nome+".docx")
 
 
 
-# programma di stampa
+# programma di STAMPA
 def stampa():
     file_stampa = input("Che file vuoi stampare?:")
     print("stampo il file:", file_stampa)
@@ -162,12 +174,3 @@ def interfaccia():
         interfaccia()
 
 interfaccia()
-
-
-
-
-
-
-
-
-
