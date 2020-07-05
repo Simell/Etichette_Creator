@@ -132,10 +132,9 @@ def stampa():
     file_stampa = input("Che file vuoi stampare?:")
     print("stampo il file:", file_stampa)
     try:
-        subprocess.run("libreoffice -p  /home/simel/hobbyfarm/Etichette_Creator/Indirizzi_SpedizioniDocx/"+file_stampa, shell = True)
-        
+        subprocess.call(["C:\Windows\System32\WindowsPowerShell\\v1.0\powershell.exe", "soffice -p   '.\Indirizzi_SpedizioniDocx\{}'".format(file_stampa)])
     except: 
-        print("XXXERROREXXX  file non trovato")
+       print("XXXERROREXXX  file non trovato")
 
 
 def aiuto():
