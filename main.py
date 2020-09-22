@@ -72,7 +72,11 @@ def nuova_etichetta():
     prezzo_scritto = input("inserisci prezzo scritto: ")
 
     # modifica del documento
-    document = Document("template/template.docx")
+    try:
+        document = Document("template/template.docx")
+    except:
+        os.mkdirs("template/")
+        document = Document("template/template.docx")
     # creazione stili
     styles = document.styles
     
@@ -136,7 +140,7 @@ def stampa():
     except: 
        print("XXXERROREXXX  file non trovato")
 
-
+# definizione comando AIUTO
 def aiuto():
     print("######AIUTO######")
     print("Scrivi 'stampa' per procedere con la stampa di un file")
@@ -148,7 +152,7 @@ def aiuto():
 
 # interfaccia principale
 def interfaccia():
-    comando = input("-->: ")
+    comando = input("-->")
     
     if comando == "":
         interfaccia()
@@ -165,7 +169,7 @@ def interfaccia():
     if comando == "aiuto":
         aiuto()
         interfaccia()
-
+    
 
 
     else:
