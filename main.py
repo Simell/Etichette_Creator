@@ -4,7 +4,6 @@
 import sqlite3
 from sqlite3 import Error
 import os
-import docx 
 from docx import Document
 from docx.shared import Pt
 import subprocess
@@ -144,15 +143,85 @@ def aiuto():
     print("#################")
 
 
+def nuova2():
+# apre nano per modificare il file tmp 
+    subprocess.run(["nano","tmp/tempsetup.txt"])
+    
+    with open("tmp/tempsetup.txt", 'r') as f:
+	    lista = f.read().splitlines()
+    f.close()
+    
+# dichiarazione variabili    
+    nome = lista[0]
+    azienda = lista[1]
+    indirizzo = lista[2]
+    località = lista[3]   
+    pagamento = lista[4]
+    prezzo = lista[5]
+    prezzo_scritto = lista[6]
 
+    # modifica del documento
+    document = Document("template/template.docx")
+    # creazione stili
+    styles = document.styles
+    
+    # stile Times New Roman: solo bold con dimensione 26
+    style = styles.add_style('Times New Roman', WD_STYLE_TYPE.PARAGRAPH)
+    
+    style.font.bold = True
+    style.font.size = Pt(26)
+    
+    # stile Underline:  bold e sottolineato con dimensione 26
+    style1 = styles.add_style('Underline', WD_STYLE_TYPE.PARAGRAPH) 
+    style1.font.underline = True
+    style1.font.bold = True
+    style1.font.size = Pt(26)
 
+    # formattazione documento
+    par_nome = document.add_paragraph(nome)
+    par_nome.alignment = 1
+
+    par_azienda = document.add_paragraph(azienda)
+    par_azienda.alignment = 1
+    
+    par_vuoto = document.add_paragraph(" ")    
+    
+    par_indirizzo = document.add_paragraph(indirizzo)
+    par_indirizzo.alignment = 1
+    
+    par_vuoto = document.add_paragraph(" ")
+    
+    par_località = document.add_paragraph(località)
+    par_località.alignment = 1
+    
+    par_vuoto = document.add_paragraph(" ")
+    
+    par_pagamento = document.add_paragraph(pagamento+" € "+prezzo)
+    par_pagamento.alignment = 1
+    par_prezzo_scritto = document.add_paragraph("("+prezzo_scritto+")")
+    par_prezzo_scritto.alignment = 1
+
+    # applicazione dello stile 
+    par_nome.style = styles["Times New Roman"]
+    par_azienda.style = styles["Times New Roman"]
+    par_indirizzo.style = styles["Times New Roman"]
+
+    par_località.style = styles["Underline"]
+    par_pagamento.style = styles["Underline"]
+    par_prezzo_scritto.style  = styles["Times New Roman"]
+
+    
+    # salvataggio documento
+    document.save("Indirizzi_SpedizioniDocx/"+nome+".docx")
+    os.remove("D:\HobbyFarm\Programmazione\Etichette_Creator-Linux\\tmp\\tempsetup.txt")
+    open('D:\HobbyFarm\Programmazione\Etichette_Creator-Linux\\tmp\\tempsetup.txt', 'a').close()
+   
 # interfaccia principale
 def interfaccia():
     comando = input("-->: ")
-    
+
     if comando == "":
         interfaccia()
-
 
     if comando == "stampa":
         stampa()
@@ -162,14 +231,16 @@ def interfaccia():
         nuova_etichetta()
         interfaccia()
     
+    if comando == "nuova2":
+        nuova2()
+        interfaccia()
+    
     if comando == "aiuto":
         aiuto()
         interfaccia()
 
-
-
     else:
-        print("comando non trovato")
+        print("comando non trovato; scrivi 'aiuto' per la lista comandi")
         interfaccia()
 
 interfaccia()
